@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Organization {
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  employees       Employee[]
+  projects        Project[]
+  vendorBuyers    VendorBuyer[]
+  clientSuppliers ClientSupplier[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Employee {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  email          String        @unique
+  password       String
+  user_type      EmployeeType  @default(EMPLOYEE)
+  timesheets     Timesheet[]
+  Organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?       @db.ObjectId
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Project {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @db.ObjectId
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model VendorBuyer {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @db.ObjectId
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model ClientSupplier {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @db.ObjectId
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Timesheet {
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
+  employee   Employee       @relation(fields: [employeeId], references: [id])
+  employeeId String         @db.ObjectId
+  approved   ApprovalStatus
+  time       DateTime
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EmployeeType {
+  EMPLOYEE
+  MANAGER
+  HR
+}
