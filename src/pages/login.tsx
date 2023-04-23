@@ -36,11 +36,17 @@ export default function Login() {
       const { email, password } = credentials;
       if (!email || !password) return;
       setLoading(true);
-      const { data } = await axios.post("/api/auth/signin", {
-        email,
-        password,
-        loginFor,
-      });
+      const { data } = await axios.post(
+        "/api/auth/signin",
+        {
+          email,
+          password,
+          loginFor,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
       router.replace(`/${loginFor}`);
