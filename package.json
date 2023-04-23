@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "generate": "npx prisma generate",
-    "seed:admin": "ts-node ./prisma/seed.ts"
+    "seed:admin": "ts-node ./prisma/seed.ts",
+    "vercel-build": "prisma generate && next build"
   },
   "dependencies": {
     "@prisma/client": "^4.13.0",
