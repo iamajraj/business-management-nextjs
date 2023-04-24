@@ -15,6 +15,7 @@ import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import userState from "../state/userState";
+import Head from "next/head";
 
 type CredentialType = {
   email: string;
@@ -65,82 +66,87 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <Tabs defaultValue="account" className="w-full max-w-[500px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="account">Employee</TabsTrigger>
-          <TabsTrigger value="password">Admin</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">
-          <Card>
-            <CardHeader>
-              <CardTitle>Login</CardTitle>
-              <CardDescription>
-                Enter your credentials to login to your employee account.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label>Email</Label>
-                <Input
-                  placeholder="Your email address"
-                  name="email"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label>Password</Label>
-                <Input
-                  placeholder="Your Password"
-                  name="password"
-                  type="password"
-                  onChange={handleChange}
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button disabled={loading} onClick={() => login("employee")}>
-                {loading ? "Logging in..." : "Login as Employee"}
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-        <TabsContent value="password">
-          <Card>
-            <CardHeader>
-              <CardTitle>Login</CardTitle>
-              <CardDescription>
-                Enter your credentials to login to your admin account.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="space-y-1">
-                <Label htmlFor="name">Email</Label>
-                <Input
-                  type="email"
-                  placeholder="Your email address"
-                  name="email"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="space-y-1">
-                <Label>Password</Label>
-                <Input
-                  placeholder="Your Password"
-                  name="password"
-                  onChange={handleChange}
-                  type="password"
-                />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button disabled={loading} onClick={() => login("admin")}>
-                {loading ? "Logging in..." : "Login as Admin"}
-              </Button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+    <>
+      <Head>
+        <title>Login</title>
+      </Head>
+      <div className="w-full h-screen flex items-center justify-center">
+        <Tabs defaultValue="account" className="w-full max-w-[500px]">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="account">Employee</TabsTrigger>
+            <TabsTrigger value="password">Admin</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">
+            <Card>
+              <CardHeader>
+                <CardTitle>Login</CardTitle>
+                <CardDescription>
+                  Enter your credentials to login to your employee account.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="space-y-1">
+                  <Label>Email</Label>
+                  <Input
+                    placeholder="Your email address"
+                    name="email"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label>Password</Label>
+                  <Input
+                    placeholder="Your Password"
+                    name="password"
+                    type="password"
+                    onChange={handleChange}
+                  />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button disabled={loading} onClick={() => login("employee")}>
+                  {loading ? "Logging in..." : "Login as Employee"}
+                </Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="password">
+            <Card>
+              <CardHeader>
+                <CardTitle>Login</CardTitle>
+                <CardDescription>
+                  Enter your credentials to login to your admin account.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="space-y-1">
+                  <Label htmlFor="name">Email</Label>
+                  <Input
+                    type="email"
+                    placeholder="Your email address"
+                    name="email"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label>Password</Label>
+                  <Input
+                    placeholder="Your Password"
+                    name="password"
+                    onChange={handleChange}
+                    type="password"
+                  />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button disabled={loading} onClick={() => login("admin")}>
+                  {loading ? "Logging in..." : "Login as Admin"}
+                </Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </>
   );
 }
