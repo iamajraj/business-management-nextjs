@@ -12,9 +12,12 @@ import {
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import axios from "axios";
-type Props = {};
 
-export default function CreateOrganization({}: Props) {
+type Props = {
+  fetchOrganizations: () => Promise<void>;
+};
+
+export default function CreateOrganization({ fetchOrganizations }: Props) {
   const [openCreateOrganizationModal, setOpenCreateOrganizationModal] =
     useState(false);
   const nameRef = useRef<null | HTMLInputElement>(null);
@@ -25,9 +28,10 @@ export default function CreateOrganization({}: Props) {
     setLoading(true);
     try {
       await axios.post("/api/organizations", { name: nameRef.current.value });
+      setOpenCreateOrganizationModal(false);
+      await fetchOrganizations();
     } catch (err) {
     } finally {
-      setOpenCreateOrganizationModal(false);
       setLoading(false);
     }
   };
